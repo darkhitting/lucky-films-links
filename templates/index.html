@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUCKY FILMS - Links</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-top: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 15px 0 5px 0;
+            color: #000;
+        }
+        .pro-name {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .link-card {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .link-card:hover {
+            transform: scale(1.02);
+            background: #f9f9f9;
+        }
+        .link-icon {
+            font-size: 24px; /* Adjusted size to match your previous look */
+            width: 40px;
+            display: flex;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        .link-text {
+            flex-grow: 1;
+            font-weight: 600;
+            text-align: left;
+        }
+        .dots {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Lucky Films Logo" class="logo">
+        
+        <h1>LUCKY FILMS DIGITAL PHOTO STUDIO</h1>
+        <div class="pro-name">Pro. DINESH BUTIYA</div>
+
+        <div class="links-list">
+            {% for link in links %}
+            <a href="{{ link.url }}" class="link-card" target="_blank">
+                <span class="link-icon">
+                    {% if 'instagram' in link.title.lower() or 'instagram' in link.url.lower() %}
+                        <i class="fab fa-instagram" style="color: #E1306C;"></i>
+                    {% elif 'whatsapp' in link.title.lower() or 'whatsapp' in link.url.lower() %}
+                        <i class="fab fa-whatsapp" style="color: #25D366;"></i>
+                    {% elif 'facebook' in link.title.lower() or 'facebook' in link.url.lower() %}
+                        <i class="fab fa-facebook" style="color: #1877F2;"></i>
+                    {% elif 'youtube' in link.title.lower() or 'youtube' in link.url.lower() %}
+                        <i class="fab fa-youtube" style="color: #FF0000;"></i>
+                    {% elif 'office' in link.title.lower() or 'address' in link.title.lower() %}
+                        <i class="fas fa-map-marker-alt" style="color: #EA4335;"></i>
+                    {% else %}
+                        <i class="fas fa-link" style="color: #666;"></i>
+                    {% endif %}
+                </span>
+                <span class="link-text">{{ link.title }}</span>
+                <span class="dots"><i class="fas fa-ellipsis-v"></i></span>
+            </a>
+            {% endfor %}
+        </div>
+
+        <p style="margin-top: 40px; color: #888; font-size: 14px;">© Lucky Films Digital Photo Studio</p>
+    </div>
+</body>
+</html>
