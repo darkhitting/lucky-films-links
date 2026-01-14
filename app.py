@@ -5,12 +5,34 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, URLField
 from wtforms.validators import DataRequired, URL
 import os
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-# --- CONFIGURATION (CHANGE THESE!) ---
-# IMPORTANT: Change this to a random long string for security
-app.config['SECRET_KEY'] = 'change-this-to-a-very-secret-key-987654321'
+# --- PASTE THE NEW CODE HERE ---
+database_url = os.environ.get('DATABASE_URL')
+
+# Render/Supabase fix: SQLAlchemy requires 'postgresql://' not 'postgres://'
+if database_url and database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+# Use Supabase if available, otherwise fall back to local sqlite
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url or 'sqlite:///app.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+# --- END OF PASTED CODE ---
+
+# YOUR CLASS DEFINITION (Keep this as is)
+class Link(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    platform = db.Column(db.String(100))
+    url = db.Column(db.String(500))
+
+# --- ADD THIS RIGHT AFTER YOUR CLASS ---
+with app.app_context():
+    db.create_all()
 
 # ADMIN CREDENTIALS (CHANGE THESE!)
 ADMIN_USERNAME = "admin"
